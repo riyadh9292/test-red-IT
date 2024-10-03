@@ -107,11 +107,10 @@ Once the server is running, you can test the API using **Postman**, **Insomnia**
 Send a POST request to `http://localhost:4000/graphql` with the following GraphQL mutation to log in:
 
 ```graphql
-mutation {
-  login(username: "admin", password: "password") {
-    token
-  }
+{
+  "query": "mutation { login(username: \"admin\", password: \"password\") { token } }"
 }
+
 ```
 
 This will return a JWT token if the credentials are correct. Use this token to authenticate all further requests.
@@ -129,68 +128,27 @@ Authorization: Bearer your-jwt-token-here
 #### Fetch a NodeObject by ID
 
 ```graphql
-query {
-  node(nodeId: "6296be3470a0c1052f89cccb") {
-    _id
-    name
-    description
-    trigger {
-      _id
-      name
-    }
-    parents {
-      _id
-      name
-    }
-    responses {
-      _id
-      name
-    }
-    actions {
-      _id
-      name
-    }
-  }
+{
+  "query": "query { node(nodeId: \"6296be3470a0c1052f89cccb\") { _id name description trigger { _id name } parents { _id name } responses { _id name } actions { _id name } } }"
 }
 ```
 
 #### Fetch All Actions
 
 ```graphql
-query {
-  actions {
-    _id
-    name
-    description
-    createdAt
-    updatedAt
-    functionString
-    resourceTemplateId
-  }
+{
+  "query": "query { actions { _id name description createdAt updatedAt functionString resourceTemplateId } }"
 }
+
 ```
 
 #### Fetch All Responses
 
 ```graphql
-query {
-  responses {
-    _id
-    name
-    description
-    platforms {
-      integrationId
-      build
-      localeGroups {
-        localeGroupId
-        variations {
-          name
-          responses
-        }
-      }
-    }
-  }
+{
+  "query": "query { responses { _id name description platforms { integrationId build localeGroups { localeGroupId variations { name responses } } } } }"
 }
+
 ```
 
 ## Authentication
@@ -241,7 +199,3 @@ test-red-IT/
 - **graphql/resolvers/index.js**: Contains the resolvers for the GraphQL queries and mutations.
 - **middleware/auth.js**: Authentication middleware for verifying JWT tokens.
 - **data/**: Contains JSON files used as the data source for the API.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
