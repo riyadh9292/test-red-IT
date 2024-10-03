@@ -108,7 +108,7 @@ Send a POST request to `http://localhost:4000/graphql` with the following GraphQ
 
 ```graphql
 {
-  "query": "mutation { login(username: \"admin\", password: \"password\") { token } }"
+  "query": "mutation { login(username: \"admin\", password: \"admin\") { token } }"
 }
 
 ```
@@ -146,7 +146,7 @@ Authorization: Bearer your-jwt-token-here
 
 ```graphql
 {
-  "query": "query { responses { _id name description platforms { integrationId build localeGroups { localeGroupId variations { name responses } } } } }"
+  "query": "query { responses { _id name description platforms { integrationId build localeGroups { localeGroup variations { name responses { type text id transform } } } } } }"
 }
 
 ```
