@@ -242,6 +242,3 @@ test-red-IT/
 - **middleware/auth.js**: Authentication middleware for verifying JWT tokens.
 - **data/**: Contains JSON files used as the data source for the API.
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
