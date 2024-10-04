@@ -1,6 +1,13 @@
 
 # GraphQL API Server - Backend Engineer Code Test
 
+## Deployment
+
+The API is deployed and can be accessed at the following link:
+
+**[Deployed API URL](https://test-red-it.onrender.com/graphql)**
+
+
 This project implements a **GraphQL API Server** using **Node.js** and **Apollo Server**. The server supports a pre-defined schema and uses JSON files as the data source. The API is secured using **Bearer Token** authentication.
 
 ## Table of Contents
