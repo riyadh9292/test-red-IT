@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { generateToken } from '../../services/jwtService.js';
+import { MissingFieldError } from '../../utils/errors.js';
 
 const readJsonFile = (filePath) => {
   const jsonData = fs.readFileSync(path.resolve(filePath), 'utf-8');
@@ -22,12 +23,24 @@ const mockUser={
 
 export const resolvers = {
   Query: {
-    node: (_, { nodeId }) => nodes.find(node => node._id === nodeId),
+    node: (_, { nodeId }) => {
+      const node = nodes.find(node => node._id === nodeId);
+      if (!node) {
+        throw new MissingFieldError('_id', 'NodeObject');
+      }
+
+      return node
+    },
     actions: () => actions,
     triggers: () => triggers,
     nodes: () => nodes,
     responses: () => responses,
-    resourceTemplates: () => resourceTemplates,
+    resourceTemplates: () => {
+      return resourceTemplates.map((template) => ({
+        ...template,
+        createdAt: template.createdAt ?? null,
+      }));
+    },
   },
 
   NodeObject: {

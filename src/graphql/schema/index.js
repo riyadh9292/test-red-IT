@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export const typeDefs = gql`
   scalar JSON
-  scalar BigInt
+  scalar Long
 
   type Action {
     _id: ID!
@@ -11,8 +11,8 @@ export const typeDefs = gql`
     functionString: String
     params: JSON
     resourceTemplateId: ID
-    createdAt: BigInt!
-    updatedAt: BigInt!
+    createdAt: Long!
+    updatedAt: Long!
   }
 
   type Trigger {
@@ -22,7 +22,8 @@ export const typeDefs = gql`
     params: JSON
     functionString: String
     resourceTemplateId: ID
-    createdAt: BigInt!
+    createdAt: Long!
+    updatedAt: Long
   }
 
   type Response {
@@ -30,8 +31,8 @@ export const typeDefs = gql`
     name: String!
     description: String
     platforms: [ResponsePlatform]
-    createdAt: BigInt!
-    updatedAt: BigInt
+    createdAt: Long!
+    updatedAt: Long
   }
 
   type ResponsePlatform {
@@ -61,13 +62,19 @@ export const typeDefs = gql`
     _id: ID!
     name: String!
     description: String
+    colour: String
     preActions: [Action]    
     postActions: [Action]
     parents:[NodeObject]
+    parentIds: [ID]
     trigger: Trigger
+    triggerId: ID
     responses: [Response]
+    responseIds: [ID]
     actions: [Action]
-    compositeId: String
+    actionIds: [ID]
+    priority: Float
+    compositeId: ID
     global: Boolean
     root: Boolean           
     redirect: Redirect      
@@ -76,8 +83,8 @@ export const typeDefs = gql`
     type: String            
     tags: [String]          
     saveCompositeId: Boolean
-    createdAt: BigInt!
-    updatedAt: BigInt!
+    createdAt: Long!
+    updatedAt: Long!
     position: Position
   }
 
@@ -102,7 +109,8 @@ export const typeDefs = gql`
     integrationId: String
     functionString: String
     key: String
-    updatedAt: BigInt!
+    createdAt: Long
+    updatedAt: Long!
   }
 
   type Query {

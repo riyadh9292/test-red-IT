@@ -4,6 +4,7 @@ import { typeDefs } from './graphql/schema/index.js';
 import { resolvers } from './graphql/resolvers/index.js';
 import dotenv from 'dotenv';
 import { verifyToken } from './services/jwtService.js';
+import { MissingFieldError } from './utils/errors.js';
 
 dotenv.config();
 
@@ -14,13 +15,10 @@ const server = new ApolloServer({
   resolvers,
   context: ({ req }) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
-    // Check if the operation is a "login" mutation
     const isLoginMutation = req.body.query.includes('login');
     if (isLoginMutation) {
-      // No authentication required for login
       return {};
     }
-    // If it's not a login mutation, enforce authentication
     if (!token) {
       throw new Error('Authentication token is missing');
     }
@@ -31,6 +29,17 @@ const server = new ApolloServer({
     } catch (error) {
       throw new Error('Invalid or expired token');
     }
+  },
+  formatError: (err) => {
+    if (err.originalError instanceof MissingFieldError) {
+      return {
+        message: err.message,
+        code: err.originalError.code,
+        field: err.originalError.field,
+        type: err.originalError.type,
+      };
+    }
+    return err;
   },
 });
 
